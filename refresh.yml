@@ -1,0 +1,17 @@
+app_root: .
+ignored_folders:
+- log
+- logs
+- tmp
+- bin
+- templates
+included_extensions:
+- .go
+build_target_path: ""
+build_path: /tmp
+build_delay: 200ns
+binary_name: app
+command_flags: []
+command_env: []
+enable_colors: true
+log_name: ""
