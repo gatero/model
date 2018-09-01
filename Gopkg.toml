@@ -1,0 +1,4 @@
+
+[[constraint]]
+  name = "google.golang.org/grpc"
+  version = "1.14.0"
