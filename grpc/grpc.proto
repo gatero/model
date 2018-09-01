@@ -1,8 +1,10 @@
 syntax = "proto3";
 package grpc;
 
-import "google/protobuf/any.proto";
+// Import Any type from ptypes
+import "vendor/github.com/golang/protobuf/ptypes/any/any.proto";
 
+// SERVICE
 service Model {
   rpc Create (CreateRequest) returns (Response) {}
   rpc Update (UpdateRequest) returns (Response) {}
@@ -18,7 +20,7 @@ message CreateRequest {
 
 message CreateRequestData {
   string type = 1;
-  map<string, Any> attributes = 2;
+  map<string, google.protobuf.Any> attributes = 2;
 }
 
 // UPDATE
@@ -29,7 +31,7 @@ message UpdateRequest {
 message UpdateRequestData {
   string type = 1;
   string id = 2;
-  map<string, Any> attributes = 3;
+  map<string, google.protobuf.Any> attributes = 3;
 }
 
 // FIND
@@ -37,7 +39,7 @@ message FindRequest {
   int32 page = 1;
   int32 limit = 2;
   string sortBy = 3;
-  map<string, Any> filter = 4;
+  map<string, google.protobuf.Any> filter = 4;
 }
 
 message FindResponse {
@@ -48,7 +50,7 @@ message FindResponse {
 message FindResponseData {
   string type = 1;
   string id = 2;
-  map<string, Any> attributes = 3;
+  map<string, google.protobuf.Any> attributes = 3;
 }
 
 message Metadata {
@@ -77,5 +79,5 @@ message DeleteByIdRequest {
 message Response {
   string type = 1;
   string id = 2;
-  map<string, Any> attributes = 3;
+  map<string, google.protobuf.Any> attributes = 3;
 }
