@@ -2,14 +2,25 @@ package model
 
 import (
 	pb "app/grpc"
+	"app/mongo"
 	"context"
-	"log"
+
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 )
 
 type RPC struct{}
 
 func (rpc *RPC) Create(context context.Context, request *pb.CreateRequest) (*pb.Response, error) {
-	log.Printf("CREATE REQUEST: %+v", request.Data.Attributes)
+	collection, err := mongo.GetCollection(request.Data.Type)
+	if err != nil {
+		return nil, err
+	}
+
+	if err := collection.Insert(&request.Data.Attributes); err != nil {
+		return nil, status.Errorf(codes.Internal, err.Error())
+	}
+
 	return &pb.Response{}, nil
 }
 

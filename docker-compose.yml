@@ -14,15 +14,17 @@ services:
       - $MODEL_VOLUME
     env_file:
       - .env
+    depends_on:
+      - db
   db:
-    image: $DB_IMAGE
-    container_name: $DB_CONTAINER
+    image: $MONGO_IMAGE
+    container_name: $MONGO_CONTAINER
     env_file:
       - .env
     environment:
-      VIRTUAL_HOST: $DB_CONTAINER
+      VIRTUAL_HOST: $MONGO_CONTAINER
     expose:
-      - $DB_PORT
+      - $MONGO_PORT
 networks:
   default:
     name: $NETWORK 
