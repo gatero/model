@@ -1,4 +1,4 @@
-package model
+package catalog
 
 import (
 	pb "app/grpc"

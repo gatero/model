@@ -5,20 +5,20 @@ import (
 	"net"
 
 	pb "app/grpc"
-	"app/model"
+	"app/catalog"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 )
 
 func main() {
-	lis, err := net.Listen("tcp", ":"+MODEL_PORT)
+	lis, err := net.Listen("tcp", ":"+CATALOG_PORT)
 	if err != nil {
 		log.Fatalf("ERROR: Failed listening %v", err)
 	}
 
 	server := grpc.NewServer()
-	pb.RegisterModelServer(server, &model.RPC{})
+	pb.RegisterCatalogServer(server, &catalog.RPC{})
 
 	reflection.Register(server)
 

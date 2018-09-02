@@ -1,6 +1,7 @@
 package mongo
 
 import (
+	"log"
 	"os"
 	"time"
 
@@ -56,20 +57,19 @@ var collection *mgo.Collection
 var currentCollectionName string
 
 func GetCollection(collectionName string) (*mgo.Collection, error) {
-	if collection == nil {
-		// if currentCollectionName and collectionName are different
-		if collectionName != currentCollectionName {
-			// redefine collection name
-			currentCollectionName = collectionName
+	// if currentCollectionName and collectionName are different
+	if collectionName != currentCollectionName {
+		// redefine collection name
+		currentCollectionName = collectionName
 
-			session, err := getSession()
-			if err != nil {
-				return nil, err
-			}
-
-			// get collection pointer
-			collection = session.DB(MONGO_DATABASE).C(currentCollectionName)
+		session, err := getSession()
+		if err != nil {
+			return nil, err
 		}
+
+		log.Printf("CURRENT COLLECTION NAME: %v", currentCollectionName)
+		// get collection pointer
+		collection = session.DB(MONGO_DATABASE).C(currentCollectionName)
 	}
 
 	return collection, nil

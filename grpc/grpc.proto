@@ -2,7 +2,7 @@ syntax = "proto3";
 package grpc;
 
 // SERVICE
-service Model {
+service Catalog {
   rpc Create (CreateRequest) returns (Response) {}
   rpc Update (UpdateRequest) returns (Response) {}
   rpc FindOne (FindOneRequest) returns (Response) {}

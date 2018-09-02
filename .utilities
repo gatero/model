@@ -1,7 +1,4 @@
-GATEWAY=dev.api.culturacolectiva.com
 GOOGLEAPIS=vendor/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis
-
-FIREBASE_ID="5aee5f3a5268d609278ca2b7"
 
 ATTRIBUTES="{\
   \"name\":\"daniel ortega\",
@@ -11,7 +8,7 @@ ATTRIBUTES="{\
 
 CREATE="{\
   \"data\":{\
-    \"type\":\"article\",
+    \"type\":\"cacas\",
     \"attributes\":${ATTRIBUTES}
   }
 }"

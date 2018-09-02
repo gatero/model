@@ -1,17 +1,17 @@
 version: '3.5'
 services:
   api:
-    container_name: $MODEL_CONTAINER
-    image: $MODEL_IMAGE
+    container_name: $CATALOG_CONTAINER
+    image: $CATALOG_IMAGE
     build:
       context: .
     restart: always
     ports:
-      - $MODEL_PORT:$MODEL_PORT
+      - $CATALOG_PORT:$CATALOG_PORT
     expose:
-      - $MODEL_PORT
+      - $CATALOG_PORT
     volumes:
-      - $MODEL_VOLUME
+      - $CATALOG_VOLUME
     env_file:
       - .env
     depends_on:
