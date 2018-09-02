@@ -3,11 +3,13 @@ package model
 import (
 	pb "app/grpc"
 	"context"
+	"log"
 )
 
 type RPC struct{}
 
 func (rpc *RPC) Create(context context.Context, request *pb.CreateRequest) (*pb.Response, error) {
+	log.Printf("CREATE REQUEST: %v", request)
 	return &pb.Response{}, nil
 }
 

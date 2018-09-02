@@ -1,1 +1,44 @@
+GATEWAY=dev.api.culturacolectiva.com
 GOOGLEAPIS=vendor/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis
+
+FIREBASE_ID="5aee5f3a5268d609278ca2b7"
+
+ATTRIBUTES="{\
+  \"name\":\"daniel ortega\",
+  \"email\":\"daniel.ortega@culturacolectiva.com\",
+  \"lastname\":\"daniel ortega\"
+}"
+
+CREATE="{\
+  \"data\":{\
+    \"type\":\"profiles\",
+    \"attributes\":${ATTRIBUTES}
+  }
+}"
+
+UPDATE="{\
+  \"data\":{\
+    \"type\":\"profiles\",
+    \"id\":\"${PROFILE_ID}\",
+    \"attributes\":${ATTRIBUTES}
+  }
+}"
+
+VALIDATE="{\
+  \"data\":{\
+    \"type\": \"profiles\",
+    \"attributes\":${ATTRIBUTES}
+  }
+}"
+
+FIND="\
+page=1&\
+limit=10&\
+sortBy=name&\
+${QUERY}\
+"
+
+# prefix properties with "filter."
+QUERY="\
+filter.firebaseId=${FIREBASE_ID}\
+"
