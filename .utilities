@@ -11,14 +11,14 @@ ATTRIBUTES="{\
 
 CREATE="{\
   \"data\":{\
-    \"type\":\"profiles\",
+    \"type\":\"article\",
     \"attributes\":${ATTRIBUTES}
   }
 }"
 
 UPDATE="{\
   \"data\":{\
-    \"type\":\"profiles\",
+    \"type\":\"article\",
     \"id\":\"${PROFILE_ID}\",
     \"attributes\":${ATTRIBUTES}
   }
@@ -26,7 +26,7 @@ UPDATE="{\
 
 VALIDATE="{\
   \"data\":{\
-    \"type\": \"profiles\",
+    \"type\": \"article\",
     \"attributes\":${ATTRIBUTES}
   }
 }"

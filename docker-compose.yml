@@ -1,19 +1,28 @@
 version: '3.5'
 services:
-  gateway:
-    container_name: $ARTICLE_CONTAINER
-    image: $ARTICLE_IMAGE
+  api:
+    container_name: $MODEL_CONTAINER
+    image: $MODEL_IMAGE
     build:
       context: .
     restart: always
     ports:
-      - $ARTICLE_PORT:$ARTICLE_PORT
+      - $MODEL_PORT:$MODEL_PORT
     expose:
-      - $ARTICLE_PORT
+      - $MODEL_PORT
     volumes:
-      - $ARTICLE_VOLUME
+      - $MODEL_VOLUME
     env_file:
       - .env
+  db:
+    image: $DB_IMAGE
+    container_name: $DB_CONTAINER
+    env_file:
+      - .env
+    environment:
+      VIRTUAL_HOST: $DB_CONTAINER
+    expose:
+      - $DB_PORT
 networks:
   default:
     name: $NETWORK 

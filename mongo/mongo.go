@@ -7,53 +7,69 @@ import (
 	mgo "gopkg.in/mgo.v2"
 )
 
-var instance *mgo.Session
+// GLOBAL CONFIGURATION VARS
 
-var MONGO_HOST string
+var MONGO_AUTH string
+var MONGO_CONTAINER string
 var MONGO_DATABASE string
-var MONGO_USER string
 var MONGO_PASSWORD string
-var MONGO_DATABASE_AUTH string
-
-var MONGO_ARTICLE_COLLECTION string
+var MONGO_USERNAME string
 
 func init() {
+	MONGO_AUTH = os.Getenv("MONGO_AUTH")
+	MONGO_CONTAINER = os.Getenv("MONGO_CONTAINER")
 	MONGO_DATABASE = os.Getenv("MONGO_DATABASE")
-	MONGO_HOST = os.Getenv("DB_HOST")
-	MONGO_USER = os.Getenv("MONGO_USER")
-	MONGO_PASSWORD = os.Getenv("MONGO_PASSWORD")
-	MONGO_DATABASE_AUTH = os.Getenv("MONGO_DATABASE_AUTH")
+	MONGO_PASSWORD = os.Getenv("MONGO_INITDB_PASSWORD")
+	MONGO_USERNAME = os.Getenv("MONGO_INITDB_USERNAME")
 }
 
-// MONGO DB
-func setupConnection() (*mgo.Session, error) {
-	MONGO_CONNECTION_PARAMS := &mgo.DialInfo{
-		Addrs:    []string{MONGO_HOST},
-		Timeout:  60 * time.Second,
-		Database: MONGO_DATABASE,
-		Username: MONGO_USER,
-		Password: MONGO_PASSWORD,
-		Source:   MONGO_DATABASE_AUTH,
+// Get the session pointer
+
+var session *mgo.Session
+
+func getSession() (*mgo.Session, error) {
+	if session == nil {
+		MONGO_CONNECTION_PARAMS := &mgo.DialInfo{
+			Addrs:    []string{MONGO_CONTAINER},
+			Database: MONGO_DATABASE,
+			Password: MONGO_PASSWORD,
+			Source:   MONGO_AUTH,
+			Timeout:  60 * time.Second,
+			Username: MONGO_USERNAME,
+		}
+
+		session, err = mgo.DialWithInfo(MONGO_CONNECTION_PARAMS)
+		if err != nil {
+			return nil, err
+		}
 	}
 
-	return mgo.DialWithInfo(MONGO_CONNECTION_PARAMS)
+	return session, nil
 }
 
-func Session() (*mgo.Session, error) {
-	if instance == nil {
-		instance, err = setupConnection()
+// Get the collection pointer
+
+var collection string
+var currentCollectionName string
+
+func getCollection(collectionName string) (*mgo.Collection, error) {
+	if collection == nil {
+		session, err := getSession()
+		if err != nil {
+			return nil, err
+		}
+
+		session.SetMode(mgo.Monotonic, true)
+
+		if collectionName != currentCollectionName {
+			currentCollectionName = collectionName
+		}
+
+		collection, err = session.DB(MONGO_DATABASE).C(currentCollectionName)
+		if err != nil {
+			return nil, err
+		}
 	}
 
-	return instance, instanceError
-}
-
-func getCollection(collection string) (*mgo.Collection, error) {
-	session, err := Session()
-	if err != nil {
-		return nil, err
-	}
-
-	session.SetMode(mgo.Monotonic, true)
-
-	return session.DB(MONGO_DATABASE).C(collection), nil
+	return collection, nil
 }

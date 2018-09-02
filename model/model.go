@@ -9,7 +9,7 @@ import (
 type RPC struct{}
 
 func (rpc *RPC) Create(context context.Context, request *pb.CreateRequest) (*pb.Response, error) {
-	log.Printf("CREATE REQUEST: %v", request)
+	log.Printf("CREATE REQUEST: %+v", request.Data.Attributes)
 	return &pb.Response{}, nil
 }
 
