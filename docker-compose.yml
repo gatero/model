@@ -16,4 +16,4 @@ services:
       - .env
 networks:
   default:
-    name: $ARTICLE_NETWORK 
+    name: $NETWORK 

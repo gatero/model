@@ -2,3 +2,7 @@
 [[constraint]]
   name = "google.golang.org/grpc"
   version = "1.14.0"
+
+[[constraint]]
+  branch = "v2"
+  name = "gopkg.in/mgo.v2"
