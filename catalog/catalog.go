@@ -7,6 +7,7 @@ import (
 
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
+	"gopkg.in/mgo.v2/bson"
 )
 
 type RPC struct{}
@@ -14,16 +15,32 @@ type RPC struct{}
 func (rpc *RPC) Create(context context.Context, request *pb.CreateRequest) (*pb.Response, error) {
 	dataType := request.Data.Type
 	instance := request.Data.Attributes
-	collection, err := mongo.GetCollection(request.Data.Type)
+	collection, err := mongo.GetCollection(dataType)
 	if err != nil {
 		return nil, err
 	}
 
-	if err := collection.Insert(instance); err != nil {
-		return nil, status.Errorf(codes.Internal, err.Error())
+	var newInstance map[string]interface{}
+	if err := collection.Find(instance).One(&newInstance); err != nil {
+		if err.Error() == "not found" {
+			if err := collection.Insert(instance); err != nil {
+				return nil, status.Errorf(codes.Internal, err.Error())
+			}
+		}
 	}
 
-	return &pb.Response{}, nil
+	outputAttributes := make(map[string]string)
+	for key, value := range newInstance {
+		if value != nil && key != "_id" {
+			outputAttributes[key] = value.(string)
+		}
+	}
+
+	return &pb.Response{
+		Type:       dataType,
+		Id:         newInstance["_id"].(bson.ObjectId).Hex(),
+		Attributes: outputAttributes,
+	}, nil
 }
 
 func (rpc *RPC) Update(context context.Context, request *pb.UpdateRequest) (*pb.Response, error) {
