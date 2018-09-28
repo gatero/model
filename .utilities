@@ -2,13 +2,12 @@ GOOGLEAPIS=vendor/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis
 
 ATTRIBUTES="{\
   \"name\":\"daniel ortega\",
-  \"email\":\"daniel.ortega@culturacolectiva.com\",
-  \"lastname\":\"daniel ortega\"
+  \"email\":\"daniel.ortega@culturacolectiva.com\"
 }"
 
 CREATE="{\
   \"data\":{\
-    \"type\":\"cacas\",
+    \"type\":\"article\",
     \"attributes\":${ATTRIBUTES}
   }
 }"

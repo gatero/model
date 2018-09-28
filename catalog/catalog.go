@@ -12,12 +12,14 @@ import (
 type RPC struct{}
 
 func (rpc *RPC) Create(context context.Context, request *pb.CreateRequest) (*pb.Response, error) {
+	dataType := request.Data.Type
+	instance := request.Data.Attributes
 	collection, err := mongo.GetCollection(request.Data.Type)
 	if err != nil {
 		return nil, err
 	}
 
-	if err := collection.Insert(&request.Data.Attributes); err != nil {
+	if err := collection.Insert(instance); err != nil {
 		return nil, status.Errorf(codes.Internal, err.Error())
 	}
 
