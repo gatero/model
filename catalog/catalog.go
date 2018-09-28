@@ -20,13 +20,22 @@ func (rpc *RPC) Create(context context.Context, request *pb.CreateRequest) (*pb.
 		return nil, err
 	}
 
-	var newInstance map[string]interface{}
-	if err := collection.Find(instance).One(&newInstance); err != nil {
+	var instanceExist map[string]interface{}
+	if err := collection.Find(instance).One(&instanceExist); err != nil {
 		if err.Error() == "not found" {
 			if err := collection.Insert(instance); err != nil {
 				return nil, status.Errorf(codes.Internal, err.Error())
 			}
 		}
+	}
+
+	if instanceExist != nil {
+		return nil, status.Errorf(codes.AlreadyExists, "Already exists")
+	}
+
+	var newInstance map[string]interface{}
+	if err := collection.Find(instance).One(&newInstance); err != nil {
+		return nil, status.Errorf(codes.Internal, err.Error())
 	}
 
 	outputAttributes := make(map[string]string)
