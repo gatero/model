@@ -15,7 +15,7 @@ CREATE="{\
 UPDATE="{\
   \"data\":{\
     \"type\":\"article\",
-    \"id\":\"${PROFILE_ID}\",
+    \"id\":\"${INSTANCE_ID}\",
     \"attributes\":${ATTRIBUTES}
   }
 }"

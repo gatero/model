@@ -1,3 +1,5 @@
+package catalog
+
 import (
 	pb "app/grpc"
 	"app/mongo"
@@ -9,6 +11,7 @@ import (
 )
 
 func (rpc *RPC) Create(context context.Context, request *pb.CreateRequest) (*pb.Response, error) {
+
 	dataType := request.Data.Type
 	dataAttributes := request.Data.Attributes
 	collection, err := mongo.GetCollection(dataType)
@@ -25,9 +28,9 @@ func (rpc *RPC) Create(context context.Context, request *pb.CreateRequest) (*pb.
 		}
 	}
 
-	if instanceExist != nil {
-		return nil, status.Errorf(codes.AlreadyExists, "Already exists")
-	}
+	//if instanceExist != nil {
+	//return nil, status.Errorf(codes.AlreadyExists, "Already exists")
+	//}
 
 	var newInstance map[string]interface{}
 	if err := collection.Find(dataAttributes).One(&newInstance); err != nil {
@@ -47,5 +50,3 @@ func (rpc *RPC) Create(context context.Context, request *pb.CreateRequest) (*pb.
 		Attributes: outputAttributes,
 	}, nil
 }
-
-
