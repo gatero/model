@@ -4,7 +4,6 @@ import (
 	pb "app/grpc"
 	"app/mongo"
 	"context"
-	"log"
 
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
@@ -12,7 +11,6 @@ import (
 )
 
 func (rpc *RPC) Create(context context.Context, request *pb.CreateRequest) (*pb.Response, error) {
-	log.Printf("REQUEST: %v", request)
 	dataType := request.Data.Type
 	dataAttributes := request.Data.Attributes
 	collection, err := mongo.GetCollection(dataType)

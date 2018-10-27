@@ -1,7 +1,6 @@
 package mongo
 
 import (
-	"log"
 	"os"
 	"time"
 
@@ -67,7 +66,6 @@ func GetCollection(collectionName string) (*mgo.Collection, error) {
 			return nil, err
 		}
 
-		log.Printf("CURRENT COLLECTION NAME: %v", currentCollectionName)
 		// get collection pointer
 		collection = session.DB(MONGO_DATABASE).C(currentCollectionName)
 	}
