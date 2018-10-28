@@ -22,17 +22,17 @@ func (rpc *RPC) FindById(context context.Context, request *pb.FindByIdRequest) (
 		return nil, err
 	}
 
-	var instancetoUpdate map[string]interface{}
-	if err := collection.Find(query).One(&instancetoUpdate); err != nil {
+	var result map[string]interface{}
+	if err := collection.Find(query).One(&result); err != nil {
 		return nil, status.Errorf(codes.Internal, err.Error())
 	}
 
-	if instancetoUpdate == nil {
+	if result == nil {
 		return nil, status.Errorf(codes.NotFound, "Not found")
 	}
 
 	outputAttributes := make(map[string]string)
-	for key, value := range instancetoUpdate {
+	for key, value := range result {
 		if value != nil && key != "_id" {
 			outputAttributes[key] = value.(string)
 		}
