@@ -63,13 +63,23 @@ message Paginate {
 }
 
 // FIND ONE
+message FindByIdRequestData {
+  string type = 1;
+  string id = 2;
+}
+
 message FindByIdRequest {
-  string id = 1;
+  FindByIdRequestData data = 1;
 }
 
 // DELETE BY ID
+message DeleteByIdRequestData {
+  string type = 1;
+  string id = 2;
+}
+
 message DeleteByIdRequest {
-  string id = 1;
+  DeleteByIdRequestData data = 1;
 }
 
 // RESPONSE
