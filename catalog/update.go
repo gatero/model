@@ -15,7 +15,7 @@ func (rpc *RPC) Update(context context.Context, request *pb.UpdateRequest) (*pb.
 	dataId := request.Data.Id
 	dataAttributes := request.Data.Attributes
 	query := bson.M{
-		"_id": dataId,
+		"_id": bson.ObjectIdHex(dataId),
 	}
 	collection, err := mongo.GetCollection(dataType)
 	if err != nil {

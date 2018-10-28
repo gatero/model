@@ -5,6 +5,6 @@ import (
 	"context"
 )
 
-func (rpc *RPC) FindOne(context context.Context, request *pb.FindOneRequest) (*pb.Response, error) {
+func (rpc *RPC) FindById(context context.Context, request *pb.FindByIdRequest) (*pb.Response, error) {
 	return &pb.Response{}, nil
 }

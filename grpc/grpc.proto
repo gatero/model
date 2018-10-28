@@ -5,7 +5,7 @@ package grpc;
 service Catalog {
   rpc Create (CreateRequest) returns (Response) {}
   rpc Update (UpdateRequest) returns (Response) {}
-  rpc FindOne (FindOneRequest) returns (Response) {}
+  rpc FindById (FindByIdRequest) returns (Response) {}
   rpc Find (FindRequest) returns (FindResponse) {}
   rpc DeleteById(DeleteByIdRequest) returns (Response) {}
 }
@@ -63,7 +63,7 @@ message Paginate {
 }
 
 // FIND ONE
-message FindOneRequest {
+message FindByIdRequest {
   string id = 1;
 }
 
