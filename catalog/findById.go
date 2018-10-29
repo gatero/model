@@ -2,7 +2,6 @@ package catalog
 
 import (
 	pb "app/grpc"
-	"app/mongo"
 	"context"
 
 	"google.golang.org/grpc/codes"
@@ -11,19 +10,18 @@ import (
 )
 
 func (rpc *RPC) FindById(context context.Context, request *pb.FindByIdRequest) (*pb.Response, error) {
-	dataType := request.Data.Type
-	dataId := request.Data.Id
-	query := bson.M{
-		"_id": bson.ObjectIdHex(dataId),
-	}
-
-	collection, err := mongo.GetCollection(dataType)
-	if err != nil {
+	rpc.Mongo.CollectionName = request.Data.Type
+	if err := rpc.Mongo.SetCollection(); err != nil {
 		return nil, err
+	}
+	defer rpc.Mongo.Session.Close()
+
+	query := bson.M{
+		"_id": bson.ObjectIdHex(request.Data.Id),
 	}
 
 	var result map[string]interface{}
-	if err := collection.Find(query).One(&result); err != nil {
+	if err := rpc.Mongo.Collection.Find(query).One(&result); err != nil {
 		return nil, status.Errorf(codes.Internal, err.Error())
 	}
 
@@ -39,8 +37,8 @@ func (rpc *RPC) FindById(context context.Context, request *pb.FindByIdRequest) (
 	}
 
 	return &pb.Response{
-		Type:       dataType,
-		Id:         dataId,
+		Type:       request.Data.Type,
+		Id:         request.Data.Id,
 		Attributes: outputAttributes,
 	}, nil
 }
