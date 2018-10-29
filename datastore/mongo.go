@@ -15,8 +15,6 @@ type Mongo struct {
 	CollectionName string
 }
 
-var session *mgo.Session
-
 func (mongo *Mongo) SetSession() error {
 	MONGO_CONNECTION_PARAMS := &mgo.DialInfo{
 		Addrs:    []string{c.MONGO_CONTAINER},
@@ -40,9 +38,9 @@ func (mongo *Mongo) SetSession() error {
 }
 
 // Get the collection pointer
-func (mongo *Mongo) SetCollection() error {
+func (mongo *Mongo) SetCollection(collectionName string) error {
 	// if currentCollectionName and collectionName are different
-
+	mongo.CollectionName = collectionName
 	err := mongo.SetSession()
 	if err != nil {
 		return err

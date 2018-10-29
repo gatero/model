@@ -10,17 +10,16 @@ import (
 )
 
 func (rpc *RPC) Create(context context.Context, request *pb.CreateRequest) (*pb.Response, error) {
-	rpc.Mongo.CollectionName = request.Data.Type
-	if err := rpc.Mongo.SetCollection(); err != nil {
+	if err := rpc.Mongo.SetCollection(request.Data.Type); err != nil {
 		return nil, err
 	}
 	defer rpc.Mongo.Session.Close()
 
-	Attributes := request.Data.Attributes
+	attributes := request.Data.Attributes
 
-	instance := make(map[string]interface{})
+	instance := make(bson.M)
 	instance["_id"] = bson.NewObjectId()
-	for key, value := range Attributes {
+	for key, value := range attributes {
 		if value != "" && key != "_id" {
 			instance[key] = value
 		}
@@ -33,6 +32,6 @@ func (rpc *RPC) Create(context context.Context, request *pb.CreateRequest) (*pb.
 	return &pb.Response{
 		Type:       request.Data.Type,
 		Id:         instance["_id"].(bson.ObjectId).Hex(),
-		Attributes: Attributes,
+		Attributes: attributes,
 	}, nil
 }

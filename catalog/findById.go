@@ -10,8 +10,7 @@ import (
 )
 
 func (rpc *RPC) FindById(context context.Context, request *pb.FindByIdRequest) (*pb.Response, error) {
-	rpc.Mongo.CollectionName = request.Data.Type
-	if err := rpc.Mongo.SetCollection(); err != nil {
+	if err := rpc.Mongo.SetCollection(request.Data.Type); err != nil {
 		return nil, err
 	}
 	defer rpc.Mongo.Session.Close()
@@ -20,7 +19,7 @@ func (rpc *RPC) FindById(context context.Context, request *pb.FindByIdRequest) (
 		"_id": bson.ObjectIdHex(request.Data.Id),
 	}
 
-	var result map[string]interface{}
+	result := make(bson.M)
 	if err := rpc.Mongo.Collection.Find(query).One(&result); err != nil {
 		return nil, status.Errorf(codes.Internal, err.Error())
 	}
