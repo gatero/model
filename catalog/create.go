@@ -16,27 +16,23 @@ func (rpc *RPC) Create(context context.Context, request *pb.CreateRequest) (*pb.
 	}
 	defer rpc.Mongo.Session.Close()
 
-	dataAttributes := request.Data.Attributes
+	Attributes := request.Data.Attributes
 
-	if err := rpc.Mongo.Collection.Insert(dataAttributes); err != nil {
-		return nil, status.Errorf(codes.Internal, err.Error())
-	}
-
-	var newInstance map[string]interface{}
-	if err := rpc.Mongo.Collection.Find(dataAttributes).One(&newInstance); err != nil {
-		return nil, status.Errorf(codes.Internal, err.Error())
-	}
-
-	outputAttributes := make(map[string]string)
-	for key, value := range newInstance {
-		if value != nil && key != "_id" {
-			outputAttributes[key] = value.(string)
+	instance := make(map[string]interface{})
+	instance["_id"] = bson.NewObjectId()
+	for key, value := range Attributes {
+		if value != "" && key != "_id" {
+			instance[key] = value
 		}
+	}
+
+	if err := rpc.Mongo.Collection.Insert(instance); err != nil {
+		return nil, status.Errorf(codes.Internal, err.Error())
 	}
 
 	return &pb.Response{
 		Type:       request.Data.Type,
-		Id:         newInstance["_id"].(bson.ObjectId).Hex(),
-		Attributes: outputAttributes,
+		Id:         instance["_id"].(bson.ObjectId).Hex(),
+		Attributes: Attributes,
 	}, nil
 }

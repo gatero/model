@@ -7,12 +7,14 @@ import (
 	"app/catalog"
 	pb "app/grpc"
 
+	c "app/constants"
+
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 )
 
 func main() {
-	lis, err := net.Listen("tcp", ":"+CATALOG_PORT)
+	lis, err := net.Listen("tcp", ":"+c.CATALOG_PORT)
 	if err != nil {
 		log.Fatalf("ERROR: Failed listening %v", err)
 	}

@@ -1,11 +1,7 @@
 package catalog
 
-import "app/db"
+import "app/datastore"
 
 type RPC struct {
-	Mongo db.Mongo
+	Mongo datastore.Mongo
 }
-
-const (
-	STATUS_DELETED string = "STATUS_DELETED"
-)

@@ -8,6 +8,8 @@ services:
     restart: always
     expose:
       - $CATALOG_PORT
+    ports:
+      - $CATALOG_PORT:$CATALOG_PORT
     volumes:
       - $CATALOG_VOLUME
     env_file:

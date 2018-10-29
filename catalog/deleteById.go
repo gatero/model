@@ -1,6 +1,7 @@
 package catalog
 
 import (
+	c "app/constants"
 	pb "app/grpc"
 	"context"
 )
@@ -12,7 +13,7 @@ func (rpc *RPC) DeleteById(context context.Context, request *pb.DeleteByIdReques
 			Type: request.Data.Type,
 			Id:   request.Data.Id,
 			Attributes: map[string]string{
-				"status": STATUS_DELETED,
+				"status": c.STATUS_DELETED,
 			},
 		},
 	})
