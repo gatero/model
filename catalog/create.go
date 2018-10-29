@@ -10,27 +10,17 @@ import (
 )
 
 func (rpc *RPC) Create(context context.Context, request *pb.CreateRequest) (*pb.Response, error) {
-	dataType := request.Data.Type
-	dataAttributes := request.Data.Attributes
-
-	rpc.Mongo.CollectionName = dataType
+	rpc.Mongo.CollectionName = request.Data.Type
 	if err := rpc.Mongo.SetCollection(); err != nil {
 		return nil, err
 	}
 	defer rpc.Mongo.Session.Close()
 
-	var instanceExist map[string]interface{}
-	if err := rpc.Mongo.Collection.Find(dataAttributes).One(&instanceExist); err != nil {
-		if err.Error() == "not found" {
-			if err := rpc.Mongo.Collection.Insert(dataAttributes); err != nil {
-				return nil, status.Errorf(codes.Internal, err.Error())
-			}
-		}
-	}
+	dataAttributes := request.Data.Attributes
 
-	//if instanceExist != nil {
-	//return nil, status.Errorf(codes.AlreadyExists, "Already exists")
-	//}
+	if err := rpc.Mongo.Collection.Insert(dataAttributes); err != nil {
+		return nil, status.Errorf(codes.Internal, err.Error())
+	}
 
 	var newInstance map[string]interface{}
 	if err := rpc.Mongo.Collection.Find(dataAttributes).One(&newInstance); err != nil {
@@ -45,7 +35,7 @@ func (rpc *RPC) Create(context context.Context, request *pb.CreateRequest) (*pb.
 	}
 
 	return &pb.Response{
-		Type:       dataType,
+		Type:       request.Data.Type,
 		Id:         newInstance["_id"].(bson.ObjectId).Hex(),
 		Attributes: outputAttributes,
 	}, nil
