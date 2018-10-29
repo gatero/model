@@ -2,7 +2,6 @@ package catalog
 
 import (
 	pb "app/grpc"
-	"app/mongo"
 	"context"
 
 	"google.golang.org/grpc/codes"
@@ -13,15 +12,17 @@ import (
 func (rpc *RPC) Create(context context.Context, request *pb.CreateRequest) (*pb.Response, error) {
 	dataType := request.Data.Type
 	dataAttributes := request.Data.Attributes
-	collection, err := mongo.GetCollection(dataType)
-	if err != nil {
+
+	rpc.Mongo.CollectionName = dataType
+	if err := rpc.Mongo.SetCollection(); err != nil {
 		return nil, err
 	}
+	defer rpc.Mongo.Session.Close()
 
 	var instanceExist map[string]interface{}
-	if err := collection.Find(dataAttributes).One(&instanceExist); err != nil {
+	if err := rpc.Mongo.Collection.Find(dataAttributes).One(&instanceExist); err != nil {
 		if err.Error() == "not found" {
-			if err := collection.Insert(dataAttributes); err != nil {
+			if err := rpc.Mongo.Collection.Insert(dataAttributes); err != nil {
 				return nil, status.Errorf(codes.Internal, err.Error())
 			}
 		}
@@ -32,7 +33,7 @@ func (rpc *RPC) Create(context context.Context, request *pb.CreateRequest) (*pb.
 	//}
 
 	var newInstance map[string]interface{}
-	if err := collection.Find(dataAttributes).One(&newInstance); err != nil {
+	if err := rpc.Mongo.Collection.Find(dataAttributes).One(&newInstance); err != nil {
 		return nil, status.Errorf(codes.Internal, err.Error())
 	}
 
