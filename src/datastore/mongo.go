@@ -1,7 +1,7 @@
 package datastore
 
 import (
-	c "app/constants"
+	c "app/src/constants"
 	"time"
 
 	mgo "gopkg.in/mgo.v2"

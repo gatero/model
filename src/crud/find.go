@@ -1,7 +1,7 @@
-package catalog
+package crud
 
 import (
-	pb "app/grpc"
+	pb "app/src/grpc"
 	"context"
 )
 

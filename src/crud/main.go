@@ -1,6 +1,6 @@
-package catalog
+package crud
 
-import "app/datastore"
+import "app/src/datastore"
 
 type RPC struct {
 	Mongo datastore.Mongo

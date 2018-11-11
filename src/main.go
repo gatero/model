@@ -4,10 +4,10 @@ import (
 	"log"
 	"net"
 
-	"app/catalog"
-	pb "app/grpc"
+	"app/src/crud"
+	pb "app/src/grpc"
 
-	c "app/constants"
+	c "app/src/constants"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
@@ -20,7 +20,7 @@ func main() {
 	}
 
 	server := grpc.NewServer()
-	pb.RegisterCatalogServer(server, &catalog.RPC{})
+	pb.RegisterCatalogServer(server, &crud.RPC{})
 
 	reflection.Register(server)
 

@@ -1,8 +1,8 @@
-package catalog
+package crud
 
 import (
-	c "app/constants"
-	pb "app/grpc"
+	c "app/src/constants"
+	pb "app/src/grpc"
 	"context"
 )
 
