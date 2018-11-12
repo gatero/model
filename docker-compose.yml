@@ -1,17 +1,17 @@
 version: '3.5'
 services:
-  api:
-    container_name: $CATALOG_CONTAINER
-    image: $CATALOG_IMAGE
+  crud:
+    container_name: $CRUD_CONTAINER
+    image: $CRUD_IMAGE
     build:
       context: .
     restart: always
     expose:
-      - $CATALOG_PORT
+      - $CRUD_PORT
     ports:
-      - $CATALOG_PORT:$CATALOG_PORT
+      - $CRUD_PORT:$CRUD_PORT
     volumes:
-      - $CATALOG_VOLUME
+      - $CRUD_VOLUME
     env_file:
       - .env
 networks:

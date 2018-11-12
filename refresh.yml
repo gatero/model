@@ -11,7 +11,7 @@ included_extensions:
 build_target_path: "./src"
 build_path: /tmp
 build_delay: 200ns
-binary_name: catalogs
+binary_name: crud
 command_flags: []
 command_env: ["golint src/..."]
 enable_colors: true

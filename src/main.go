@@ -20,7 +20,7 @@ func main() {
 	}
 
 	server := grpc.NewServer()
-	pb.RegisterCatalogServer(server, &crud.RPC{})
+	pb.RegisterCrudServer(server, &crud.RPC{})
 
 	reflection.Register(server)
 
