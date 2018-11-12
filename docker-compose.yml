@@ -8,8 +8,6 @@ services:
     restart: always
     expose:
       - $CRUD_PORT
-    ports:
-      - $CRUD_PORT:$CRUD_PORT
     volumes:
       - $CRUD_VOLUME
     env_file:
