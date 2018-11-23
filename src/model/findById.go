@@ -1,4 +1,4 @@
-package crud
+package model
 
 import (
 	pb "app/src/grpc"
