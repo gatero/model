@@ -8,7 +8,7 @@ import (
 
 	c "app/src/constants"
 
-	"app/model"
+	"app/src/model"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
@@ -21,7 +21,7 @@ func main() {
 	}
 
 	server := grpc.NewServer()
-	pb.RegisterCrudServer(server, &model.RPC{})
+	pb.RegisterModelServer(server, &model.RPC{})
 
 	reflection.Register(server)
 

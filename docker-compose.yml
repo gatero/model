@@ -1,15 +1,15 @@
 version: '3.5'
 services:
   crud:
-    container_name: $CRUD_CONTAINER
-    image: $CRUD_IMAGE
+    container_name: $MODEL_CONTAINER
+    image: $MODEL_IMAGE
     build:
       context: .
     restart: always
     expose:
-      - $CRUD_PORT
+      - $MODEL_PORT
     volumes:
-      - $CRUD_VOLUME
+      - $MODEL_VOLUME
     env_file:
       - .env
 networks:
