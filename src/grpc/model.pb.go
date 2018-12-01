@@ -209,13 +209,14 @@ func (m *UpdateRequestData) GetAttributes() map[string]string {
 
 // FIND
 type FindRequest struct {
-	Page                 int32             `protobuf:"varint,1,opt,name=page,proto3" json:"page,omitempty" bson:"page,omitempty"`
-	Limit                int32             `protobuf:"varint,2,opt,name=limit,proto3" json:"limit,omitempty" bson:"limit,omitempty"`
-	SortBy               string            `protobuf:"bytes,3,opt,name=sortBy,proto3" json:"sortBy,omitempty" bson:"sortBy,omitempty"`
-	Filter               map[string]string `protobuf:"bytes,4,rep,name=filter,proto3" json:"filter,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
-	XXX_NoUnkeyedLiteral struct{}          `json:"-" bson:"-"`
-	XXX_unrecognized     []byte            `json:"-" bson:"-"`
-	XXX_sizecache        int32             `json:"-" bson:"-"`
+	Type                 string   `protobuf:"bytes,1,opt,name=type,proto3" json:"type,omitempty" bson:"type,omitempty"`
+	Page                 int32    `protobuf:"varint,2,opt,name=page,proto3" json:"page,omitempty" bson:"page,omitempty"`
+	Limit                int32    `protobuf:"varint,3,opt,name=limit,proto3" json:"limit,omitempty" bson:"limit,omitempty"`
+	SortBy               string   `protobuf:"bytes,4,opt,name=sortBy,proto3" json:"sortBy,omitempty" bson:"sortBy,omitempty"`
+	Filter               []byte   `protobuf:"bytes,5,opt,name=filter,proto3" json:"filter,omitempty" bson:"filter,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-" bson:"-"`
+	XXX_unrecognized     []byte   `json:"-" bson:"-"`
+	XXX_sizecache        int32    `json:"-" bson:"-"`
 }
 
 func (m *FindRequest) Reset()         { *m = FindRequest{} }
@@ -243,6 +244,13 @@ func (m *FindRequest) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_FindRequest proto.InternalMessageInfo
 
+func (m *FindRequest) GetType() string {
+	if m != nil {
+		return m.Type
+	}
+	return ""
+}
+
 func (m *FindRequest) GetPage() int32 {
 	if m != nil {
 		return m.Page
@@ -264,7 +272,7 @@ func (m *FindRequest) GetSortBy() string {
 	return ""
 }
 
-func (m *FindRequest) GetFilter() map[string]string {
+func (m *FindRequest) GetFilter() []byte {
 	if m != nil {
 		return m.Filter
 	}
@@ -272,11 +280,11 @@ func (m *FindRequest) GetFilter() map[string]string {
 }
 
 type FindResponse struct {
-	Metadata             *Metadata           `protobuf:"bytes,1,opt,name=metadata,proto3" json:"metadata,omitempty" bson:"metadata,omitempty"`
-	Data                 []*FindResponseData `protobuf:"bytes,2,rep,name=data,proto3" json:"data,omitempty" bson:"data,omitempty"`
-	XXX_NoUnkeyedLiteral struct{}            `json:"-" bson:"-"`
-	XXX_unrecognized     []byte              `json:"-" bson:"-"`
-	XXX_sizecache        int32               `json:"-" bson:"-"`
+	Metadata             *Metadata   `protobuf:"bytes,1,opt,name=metadata,proto3" json:"metadata,omitempty" bson:"metadata,omitempty"`
+	Data                 []*Response `protobuf:"bytes,2,rep,name=data,proto3" json:"data,omitempty" bson:"data,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}    `json:"-" bson:"-"`
+	XXX_unrecognized     []byte      `json:"-" bson:"-"`
+	XXX_sizecache        int32       `json:"-" bson:"-"`
 }
 
 func (m *FindResponse) Reset()         { *m = FindResponse{} }
@@ -311,64 +319,9 @@ func (m *FindResponse) GetMetadata() *Metadata {
 	return nil
 }
 
-func (m *FindResponse) GetData() []*FindResponseData {
+func (m *FindResponse) GetData() []*Response {
 	if m != nil {
 		return m.Data
-	}
-	return nil
-}
-
-type FindResponseData struct {
-	Type                 string            `protobuf:"bytes,1,opt,name=type,proto3" json:"type,omitempty" bson:"type,omitempty"`
-	Id                   string            `protobuf:"bytes,2,opt,name=id,proto3" json:"id,omitempty" bson:"id,omitempty"`
-	Attributes           map[string]string `protobuf:"bytes,3,rep,name=attributes,proto3" json:"attributes,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
-	XXX_NoUnkeyedLiteral struct{}          `json:"-" bson:"-"`
-	XXX_unrecognized     []byte            `json:"-" bson:"-"`
-	XXX_sizecache        int32             `json:"-" bson:"-"`
-}
-
-func (m *FindResponseData) Reset()         { *m = FindResponseData{} }
-func (m *FindResponseData) String() string { return proto.CompactTextString(m) }
-func (*FindResponseData) ProtoMessage()    {}
-func (*FindResponseData) Descriptor() ([]byte, []int) {
-	return fileDescriptor_a5856a62059d3302, []int{6}
-}
-
-func (m *FindResponseData) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_FindResponseData.Unmarshal(m, b)
-}
-func (m *FindResponseData) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_FindResponseData.Marshal(b, m, deterministic)
-}
-func (m *FindResponseData) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_FindResponseData.Merge(m, src)
-}
-func (m *FindResponseData) XXX_Size() int {
-	return xxx_messageInfo_FindResponseData.Size(m)
-}
-func (m *FindResponseData) XXX_DiscardUnknown() {
-	xxx_messageInfo_FindResponseData.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_FindResponseData proto.InternalMessageInfo
-
-func (m *FindResponseData) GetType() string {
-	if m != nil {
-		return m.Type
-	}
-	return ""
-}
-
-func (m *FindResponseData) GetId() string {
-	if m != nil {
-		return m.Id
-	}
-	return ""
-}
-
-func (m *FindResponseData) GetAttributes() map[string]string {
-	if m != nil {
-		return m.Attributes
 	}
 	return nil
 }
@@ -384,7 +337,7 @@ func (m *Metadata) Reset()         { *m = Metadata{} }
 func (m *Metadata) String() string { return proto.CompactTextString(m) }
 func (*Metadata) ProtoMessage()    {}
 func (*Metadata) Descriptor() ([]byte, []int) {
-	return fileDescriptor_a5856a62059d3302, []int{7}
+	return fileDescriptor_a5856a62059d3302, []int{6}
 }
 
 func (m *Metadata) XXX_Unmarshal(b []byte) error {
@@ -427,7 +380,7 @@ func (m *Paginate) Reset()         { *m = Paginate{} }
 func (m *Paginate) String() string { return proto.CompactTextString(m) }
 func (*Paginate) ProtoMessage()    {}
 func (*Paginate) Descriptor() ([]byte, []int) {
-	return fileDescriptor_a5856a62059d3302, []int{8}
+	return fileDescriptor_a5856a62059d3302, []int{7}
 }
 
 func (m *Paginate) XXX_Unmarshal(b []byte) error {
@@ -483,8 +436,47 @@ func (m *Paginate) GetSortBy() string {
 	return ""
 }
 
-// FIND ONE
-type FindByIdRequestData struct {
+// TRANSACTIONS BY ID
+type ByIdRequest struct {
+	Data                 *ByIdRequestData `protobuf:"bytes,1,opt,name=data,proto3" json:"data,omitempty" bson:"data,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}         `json:"-" bson:"-"`
+	XXX_unrecognized     []byte           `json:"-" bson:"-"`
+	XXX_sizecache        int32            `json:"-" bson:"-"`
+}
+
+func (m *ByIdRequest) Reset()         { *m = ByIdRequest{} }
+func (m *ByIdRequest) String() string { return proto.CompactTextString(m) }
+func (*ByIdRequest) ProtoMessage()    {}
+func (*ByIdRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_a5856a62059d3302, []int{8}
+}
+
+func (m *ByIdRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ByIdRequest.Unmarshal(m, b)
+}
+func (m *ByIdRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ByIdRequest.Marshal(b, m, deterministic)
+}
+func (m *ByIdRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ByIdRequest.Merge(m, src)
+}
+func (m *ByIdRequest) XXX_Size() int {
+	return xxx_messageInfo_ByIdRequest.Size(m)
+}
+func (m *ByIdRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_ByIdRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ByIdRequest proto.InternalMessageInfo
+
+func (m *ByIdRequest) GetData() *ByIdRequestData {
+	if m != nil {
+		return m.Data
+	}
+	return nil
+}
+
+type ByIdRequestData struct {
 	Type                 string   `protobuf:"bytes,1,opt,name=type,proto3" json:"type,omitempty" bson:"type,omitempty"`
 	Id                   string   `protobuf:"bytes,2,opt,name=id,proto3" json:"id,omitempty" bson:"id,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-" bson:"-"`
@@ -492,169 +484,43 @@ type FindByIdRequestData struct {
 	XXX_sizecache        int32    `json:"-" bson:"-"`
 }
 
-func (m *FindByIdRequestData) Reset()         { *m = FindByIdRequestData{} }
-func (m *FindByIdRequestData) String() string { return proto.CompactTextString(m) }
-func (*FindByIdRequestData) ProtoMessage()    {}
-func (*FindByIdRequestData) Descriptor() ([]byte, []int) {
+func (m *ByIdRequestData) Reset()         { *m = ByIdRequestData{} }
+func (m *ByIdRequestData) String() string { return proto.CompactTextString(m) }
+func (*ByIdRequestData) ProtoMessage()    {}
+func (*ByIdRequestData) Descriptor() ([]byte, []int) {
 	return fileDescriptor_a5856a62059d3302, []int{9}
 }
 
-func (m *FindByIdRequestData) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_FindByIdRequestData.Unmarshal(m, b)
+func (m *ByIdRequestData) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ByIdRequestData.Unmarshal(m, b)
 }
-func (m *FindByIdRequestData) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_FindByIdRequestData.Marshal(b, m, deterministic)
+func (m *ByIdRequestData) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ByIdRequestData.Marshal(b, m, deterministic)
 }
-func (m *FindByIdRequestData) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_FindByIdRequestData.Merge(m, src)
+func (m *ByIdRequestData) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ByIdRequestData.Merge(m, src)
 }
-func (m *FindByIdRequestData) XXX_Size() int {
-	return xxx_messageInfo_FindByIdRequestData.Size(m)
+func (m *ByIdRequestData) XXX_Size() int {
+	return xxx_messageInfo_ByIdRequestData.Size(m)
 }
-func (m *FindByIdRequestData) XXX_DiscardUnknown() {
-	xxx_messageInfo_FindByIdRequestData.DiscardUnknown(m)
+func (m *ByIdRequestData) XXX_DiscardUnknown() {
+	xxx_messageInfo_ByIdRequestData.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_FindByIdRequestData proto.InternalMessageInfo
+var xxx_messageInfo_ByIdRequestData proto.InternalMessageInfo
 
-func (m *FindByIdRequestData) GetType() string {
+func (m *ByIdRequestData) GetType() string {
 	if m != nil {
 		return m.Type
 	}
 	return ""
 }
 
-func (m *FindByIdRequestData) GetId() string {
+func (m *ByIdRequestData) GetId() string {
 	if m != nil {
 		return m.Id
 	}
 	return ""
-}
-
-type FindByIdRequest struct {
-	Data                 *FindByIdRequestData `protobuf:"bytes,1,opt,name=data,proto3" json:"data,omitempty" bson:"data,omitempty"`
-	XXX_NoUnkeyedLiteral struct{}             `json:"-" bson:"-"`
-	XXX_unrecognized     []byte               `json:"-" bson:"-"`
-	XXX_sizecache        int32                `json:"-" bson:"-"`
-}
-
-func (m *FindByIdRequest) Reset()         { *m = FindByIdRequest{} }
-func (m *FindByIdRequest) String() string { return proto.CompactTextString(m) }
-func (*FindByIdRequest) ProtoMessage()    {}
-func (*FindByIdRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_a5856a62059d3302, []int{10}
-}
-
-func (m *FindByIdRequest) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_FindByIdRequest.Unmarshal(m, b)
-}
-func (m *FindByIdRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_FindByIdRequest.Marshal(b, m, deterministic)
-}
-func (m *FindByIdRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_FindByIdRequest.Merge(m, src)
-}
-func (m *FindByIdRequest) XXX_Size() int {
-	return xxx_messageInfo_FindByIdRequest.Size(m)
-}
-func (m *FindByIdRequest) XXX_DiscardUnknown() {
-	xxx_messageInfo_FindByIdRequest.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_FindByIdRequest proto.InternalMessageInfo
-
-func (m *FindByIdRequest) GetData() *FindByIdRequestData {
-	if m != nil {
-		return m.Data
-	}
-	return nil
-}
-
-// DELETE BY ID
-type DeleteByIdRequestData struct {
-	Type                 string   `protobuf:"bytes,1,opt,name=type,proto3" json:"type,omitempty" bson:"type,omitempty"`
-	Id                   string   `protobuf:"bytes,2,opt,name=id,proto3" json:"id,omitempty" bson:"id,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-" bson:"-"`
-	XXX_unrecognized     []byte   `json:"-" bson:"-"`
-	XXX_sizecache        int32    `json:"-" bson:"-"`
-}
-
-func (m *DeleteByIdRequestData) Reset()         { *m = DeleteByIdRequestData{} }
-func (m *DeleteByIdRequestData) String() string { return proto.CompactTextString(m) }
-func (*DeleteByIdRequestData) ProtoMessage()    {}
-func (*DeleteByIdRequestData) Descriptor() ([]byte, []int) {
-	return fileDescriptor_a5856a62059d3302, []int{11}
-}
-
-func (m *DeleteByIdRequestData) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_DeleteByIdRequestData.Unmarshal(m, b)
-}
-func (m *DeleteByIdRequestData) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_DeleteByIdRequestData.Marshal(b, m, deterministic)
-}
-func (m *DeleteByIdRequestData) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_DeleteByIdRequestData.Merge(m, src)
-}
-func (m *DeleteByIdRequestData) XXX_Size() int {
-	return xxx_messageInfo_DeleteByIdRequestData.Size(m)
-}
-func (m *DeleteByIdRequestData) XXX_DiscardUnknown() {
-	xxx_messageInfo_DeleteByIdRequestData.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_DeleteByIdRequestData proto.InternalMessageInfo
-
-func (m *DeleteByIdRequestData) GetType() string {
-	if m != nil {
-		return m.Type
-	}
-	return ""
-}
-
-func (m *DeleteByIdRequestData) GetId() string {
-	if m != nil {
-		return m.Id
-	}
-	return ""
-}
-
-type DeleteByIdRequest struct {
-	Data                 *DeleteByIdRequestData `protobuf:"bytes,1,opt,name=data,proto3" json:"data,omitempty" bson:"data,omitempty"`
-	XXX_NoUnkeyedLiteral struct{}               `json:"-" bson:"-"`
-	XXX_unrecognized     []byte                 `json:"-" bson:"-"`
-	XXX_sizecache        int32                  `json:"-" bson:"-"`
-}
-
-func (m *DeleteByIdRequest) Reset()         { *m = DeleteByIdRequest{} }
-func (m *DeleteByIdRequest) String() string { return proto.CompactTextString(m) }
-func (*DeleteByIdRequest) ProtoMessage()    {}
-func (*DeleteByIdRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_a5856a62059d3302, []int{12}
-}
-
-func (m *DeleteByIdRequest) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_DeleteByIdRequest.Unmarshal(m, b)
-}
-func (m *DeleteByIdRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_DeleteByIdRequest.Marshal(b, m, deterministic)
-}
-func (m *DeleteByIdRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_DeleteByIdRequest.Merge(m, src)
-}
-func (m *DeleteByIdRequest) XXX_Size() int {
-	return xxx_messageInfo_DeleteByIdRequest.Size(m)
-}
-func (m *DeleteByIdRequest) XXX_DiscardUnknown() {
-	xxx_messageInfo_DeleteByIdRequest.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_DeleteByIdRequest proto.InternalMessageInfo
-
-func (m *DeleteByIdRequest) GetData() *DeleteByIdRequestData {
-	if m != nil {
-		return m.Data
-	}
-	return nil
 }
 
 // RESPONSE
@@ -671,7 +537,7 @@ func (m *Response) Reset()         { *m = Response{} }
 func (m *Response) String() string { return proto.CompactTextString(m) }
 func (*Response) ProtoMessage()    {}
 func (*Response) Descriptor() ([]byte, []int) {
-	return fileDescriptor_a5856a62059d3302, []int{13}
+	return fileDescriptor_a5856a62059d3302, []int{10}
 }
 
 func (m *Response) XXX_Unmarshal(b []byte) error {
@@ -721,16 +587,11 @@ func init() {
 	proto.RegisterType((*UpdateRequestData)(nil), "model.UpdateRequestData")
 	proto.RegisterMapType((map[string]string)(nil), "model.UpdateRequestData.AttributesEntry")
 	proto.RegisterType((*FindRequest)(nil), "model.FindRequest")
-	proto.RegisterMapType((map[string]string)(nil), "model.FindRequest.FilterEntry")
 	proto.RegisterType((*FindResponse)(nil), "model.FindResponse")
-	proto.RegisterType((*FindResponseData)(nil), "model.FindResponseData")
-	proto.RegisterMapType((map[string]string)(nil), "model.FindResponseData.AttributesEntry")
 	proto.RegisterType((*Metadata)(nil), "model.Metadata")
 	proto.RegisterType((*Paginate)(nil), "model.Paginate")
-	proto.RegisterType((*FindByIdRequestData)(nil), "model.FindByIdRequestData")
-	proto.RegisterType((*FindByIdRequest)(nil), "model.FindByIdRequest")
-	proto.RegisterType((*DeleteByIdRequestData)(nil), "model.DeleteByIdRequestData")
-	proto.RegisterType((*DeleteByIdRequest)(nil), "model.DeleteByIdRequest")
+	proto.RegisterType((*ByIdRequest)(nil), "model.ByIdRequest")
+	proto.RegisterType((*ByIdRequestData)(nil), "model.ByIdRequestData")
 	proto.RegisterType((*Response)(nil), "model.Response")
 	proto.RegisterMapType((map[string]string)(nil), "model.Response.AttributesEntry")
 }
@@ -749,9 +610,9 @@ const _ = grpc.SupportPackageIsVersion4
 type ModelClient interface {
 	Create(ctx context.Context, in *CreateRequest, opts ...grpc.CallOption) (*Response, error)
 	Update(ctx context.Context, in *UpdateRequest, opts ...grpc.CallOption) (*Response, error)
-	FindById(ctx context.Context, in *FindByIdRequest, opts ...grpc.CallOption) (*Response, error)
+	FindById(ctx context.Context, in *ByIdRequest, opts ...grpc.CallOption) (*Response, error)
 	Find(ctx context.Context, in *FindRequest, opts ...grpc.CallOption) (*FindResponse, error)
-	DeleteById(ctx context.Context, in *DeleteByIdRequest, opts ...grpc.CallOption) (*Response, error)
+	DeleteById(ctx context.Context, in *ByIdRequest, opts ...grpc.CallOption) (*Response, error)
 }
 
 type modelClient struct {
@@ -780,7 +641,7 @@ func (c *modelClient) Update(ctx context.Context, in *UpdateRequest, opts ...grp
 	return out, nil
 }
 
-func (c *modelClient) FindById(ctx context.Context, in *FindByIdRequest, opts ...grpc.CallOption) (*Response, error) {
+func (c *modelClient) FindById(ctx context.Context, in *ByIdRequest, opts ...grpc.CallOption) (*Response, error) {
 	out := new(Response)
 	err := c.cc.Invoke(ctx, "/model.Model/FindById", in, out, opts...)
 	if err != nil {
@@ -798,7 +659,7 @@ func (c *modelClient) Find(ctx context.Context, in *FindRequest, opts ...grpc.Ca
 	return out, nil
 }
 
-func (c *modelClient) DeleteById(ctx context.Context, in *DeleteByIdRequest, opts ...grpc.CallOption) (*Response, error) {
+func (c *modelClient) DeleteById(ctx context.Context, in *ByIdRequest, opts ...grpc.CallOption) (*Response, error) {
 	out := new(Response)
 	err := c.cc.Invoke(ctx, "/model.Model/DeleteById", in, out, opts...)
 	if err != nil {
@@ -811,9 +672,9 @@ func (c *modelClient) DeleteById(ctx context.Context, in *DeleteByIdRequest, opt
 type ModelServer interface {
 	Create(context.Context, *CreateRequest) (*Response, error)
 	Update(context.Context, *UpdateRequest) (*Response, error)
-	FindById(context.Context, *FindByIdRequest) (*Response, error)
+	FindById(context.Context, *ByIdRequest) (*Response, error)
 	Find(context.Context, *FindRequest) (*FindResponse, error)
-	DeleteById(context.Context, *DeleteByIdRequest) (*Response, error)
+	DeleteById(context.Context, *ByIdRequest) (*Response, error)
 }
 
 func RegisterModelServer(s *grpc.Server, srv ModelServer) {
@@ -857,7 +718,7 @@ func _Model_Update_Handler(srv interface{}, ctx context.Context, dec func(interf
 }
 
 func _Model_FindById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(FindByIdRequest)
+	in := new(ByIdRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -869,7 +730,7 @@ func _Model_FindById_Handler(srv interface{}, ctx context.Context, dec func(inte
 		FullMethod: "/model.Model/FindById",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ModelServer).FindById(ctx, req.(*FindByIdRequest))
+		return srv.(ModelServer).FindById(ctx, req.(*ByIdRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -893,7 +754,7 @@ func _Model_Find_Handler(srv interface{}, ctx context.Context, dec func(interfac
 }
 
 func _Model_DeleteById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DeleteByIdRequest)
+	in := new(ByIdRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -905,7 +766,7 @@ func _Model_DeleteById_Handler(srv interface{}, ctx context.Context, dec func(in
 		FullMethod: "/model.Model/DeleteById",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ModelServer).DeleteById(ctx, req.(*DeleteByIdRequest))
+		return srv.(ModelServer).DeleteById(ctx, req.(*ByIdRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -942,42 +803,38 @@ var _Model_serviceDesc = grpc.ServiceDesc{
 func init() { proto.RegisterFile("src/model/model.proto", fileDescriptor_a5856a62059d3302) }
 
 var fileDescriptor_a5856a62059d3302 = []byte{
-	// 586 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xb4, 0x55, 0xdb, 0x6e, 0xd3, 0x40,
-	0x10, 0xad, 0x1d, 0x3b, 0x72, 0x27, 0x40, 0x9a, 0xe9, 0x05, 0x2b, 0xaa, 0x4a, 0xe5, 0x17, 0x22,
-	0x15, 0x05, 0x08, 0xe2, 0x12, 0x50, 0x85, 0x7a, 0x05, 0x1e, 0x22, 0x21, 0x4b, 0x7c, 0xc0, 0x16,
-	0x2f, 0xc5, 0xc2, 0xb1, 0x8d, 0xbd, 0x41, 0xf2, 0x2f, 0xf0, 0xc8, 0x87, 0x20, 0xbe, 0x00, 0x21,
-	0xbe, 0x0c, 0x79, 0x77, 0xe3, 0xf8, 0xb2, 0x11, 0x6d, 0xa5, 0xbc, 0x44, 0xde, 0xd9, 0x99, 0x39,
-	0x33, 0x73, 0xce, 0x4e, 0x60, 0x3b, 0x4d, 0x3e, 0x3e, 0x9c, 0x46, 0x1e, 0x0d, 0xc4, 0xef, 0x30,
-	0x4e, 0x22, 0x16, 0xa1, 0xc9, 0x0f, 0xce, 0x21, 0xdc, 0x3e, 0x49, 0x28, 0x61, 0xd4, 0xa5, 0x5f,
-	0x67, 0x34, 0x65, 0xf8, 0x00, 0x0c, 0x8f, 0x30, 0x62, 0x6b, 0xfb, 0xda, 0xa0, 0x33, 0xb2, 0x87,
-	0x22, 0xa6, 0xe2, 0x73, 0x4a, 0x18, 0x71, 0xb9, 0x97, 0xf3, 0x4b, 0x83, 0x5e, 0xe3, 0x0e, 0x11,
-	0x0c, 0x96, 0xc5, 0x94, 0xe7, 0x58, 0x77, 0xf9, 0x37, 0xbe, 0x05, 0x20, 0x8c, 0x25, 0xfe, 0xc5,
-	0x8c, 0xd1, 0xd4, 0xd6, 0xf7, 0x5b, 0x83, 0xce, 0x68, 0xb0, 0x2c, 0xfb, 0xf0, 0xa8, 0x70, 0x3d,
-	0x0b, 0x59, 0x92, 0xb9, 0xa5, 0xd8, 0xfe, 0x21, 0x74, 0x6b, 0xd7, 0xb8, 0x01, 0xad, 0x2f, 0x34,
-	0x93, 0x78, 0xf9, 0x27, 0x6e, 0x81, 0xf9, 0x8d, 0x04, 0x33, 0x6a, 0xeb, 0xdc, 0x26, 0x0e, 0x2f,
-	0xf5, 0x17, 0x5a, 0xde, 0xf1, 0x87, 0xd8, 0xfb, 0x6f, 0xc7, 0x15, 0x9f, 0x52, 0xc7, 0x7f, 0x34,
-	0xe8, 0x35, 0xee, 0x94, 0x1d, 0xdf, 0x01, 0xdd, 0xf7, 0x24, 0xbe, 0xee, 0x7b, 0xb5, 0x09, 0xb4,
-	0x2a, 0x13, 0x68, 0x64, 0x5c, 0xe5, 0x04, 0xfe, 0x6a, 0xd0, 0x39, 0xf7, 0x43, 0x6f, 0x3e, 0x00,
-	0x04, 0x23, 0x26, 0x97, 0xa2, 0x78, 0xd3, 0xe5, 0xdf, 0x79, 0x74, 0xe0, 0x4f, 0x7d, 0xc6, 0xa3,
-	0x4d, 0x57, 0x1c, 0x70, 0x07, 0xda, 0x69, 0x94, 0xb0, 0xe3, 0xcc, 0x6e, 0xf1, 0xa4, 0xf2, 0x84,
-	0xcf, 0xa0, 0xfd, 0xc9, 0x0f, 0x18, 0x4d, 0x6c, 0x83, 0xb7, 0xb5, 0x27, 0xdb, 0x2a, 0xa1, 0x0c,
-	0xcf, 0xb9, 0x83, 0x68, 0x46, 0x7a, 0xf7, 0xc7, 0x79, 0x21, 0x85, 0xf9, 0x5a, 0x4d, 0x7c, 0x86,
-	0x5b, 0x22, 0x7b, 0x1a, 0x47, 0x61, 0x4a, 0xf1, 0x00, 0xac, 0x29, 0x65, 0xa4, 0xc4, 0x64, 0x57,
-	0x16, 0x31, 0x91, 0x66, 0xb7, 0x70, 0xc0, 0x03, 0x49, 0xb9, 0x90, 0xe1, 0xdd, 0x4a, 0xb5, 0x22,
-	0x5f, 0x89, 0xf1, 0xdf, 0x1a, 0x6c, 0xd4, 0xaf, 0xae, 0x44, 0xf8, 0x1b, 0x05, 0xe1, 0xf7, 0x97,
-	0x60, 0xad, 0x92, 0xef, 0xe7, 0x60, 0x4d, 0x16, 0x9d, 0x5b, 0x31, 0xb9, 0xf4, 0x43, 0xc2, 0x68,
-	0x6d, 0x4c, 0xef, 0xa5, 0xd9, 0x2d, 0x1c, 0x9c, 0xef, 0x1a, 0x58, 0x73, 0x33, 0xee, 0x01, 0xb0,
-	0x88, 0x91, 0xe0, 0x24, 0x9a, 0x85, 0x4c, 0x6a, 0xa5, 0x64, 0xc1, 0x5d, 0x58, 0xcf, 0x95, 0x23,
-	0xae, 0x85, 0x6a, 0x16, 0x86, 0x42, 0x63, 0x2d, 0x95, 0xc6, 0x0c, 0xb5, 0xc6, 0xcc, 0xb2, 0xc6,
-	0x9c, 0x31, 0x6c, 0xe6, 0x43, 0x3b, 0xce, 0xde, 0x79, 0xd7, 0x7c, 0x79, 0xce, 0x11, 0x74, 0x6b,
-	0xa1, 0x38, 0xac, 0x3c, 0xfa, 0x7e, 0x89, 0x95, 0x1a, 0x80, 0x14, 0xc1, 0x2b, 0xd8, 0x3e, 0xa5,
-	0x01, 0x65, 0xf4, 0x26, 0xf8, 0x67, 0xd0, 0x6b, 0x04, 0xe3, 0xa3, 0x4a, 0x05, 0xbb, 0xb2, 0x02,
-	0x25, 0x88, 0xac, 0xe1, 0xa7, 0x06, 0x56, 0xa1, 0xf7, 0xab, 0x08, 0xf0, 0xb5, 0x42, 0x80, 0xf7,
-	0x24, 0xd0, 0x3c, 0xd1, 0x0a, 0x85, 0x37, 0xfa, 0xa1, 0x83, 0x39, 0xc9, 0xd1, 0xf0, 0x31, 0xb4,
-	0xc5, 0x92, 0xc7, 0x2d, 0xd5, 0xce, 0xef, 0x77, 0x6b, 0x55, 0x39, 0x6b, 0x79, 0x88, 0xd8, 0x8a,
-	0x45, 0x48, 0x65, 0x49, 0xaa, 0x42, 0x9e, 0x82, 0x35, 0x67, 0x10, 0x77, 0xd4, 0x94, 0xaa, 0x91,
-	0x8c, 0xdc, 0x0b, 0xb1, 0xb9, 0xb5, 0xfa, 0x9b, 0x8a, 0xf7, 0xea, 0xac, 0xe1, 0x18, 0x60, 0xc1,
-	0x14, 0xda, 0xcb, 0xc8, 0x53, 0xa0, 0x5d, 0xb4, 0xf9, 0xff, 0xef, 0x93, 0x7f, 0x01, 0x00, 0x00,
-	0xff, 0xff, 0x07, 0x90, 0x9d, 0x6f, 0x98, 0x07, 0x00, 0x00,
+	// 515 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xb4, 0x54, 0xdd, 0x6a, 0xd4, 0x50,
+	0x10, 0x36, 0x7f, 0x4b, 0x3a, 0x5b, 0x5d, 0x3b, 0xd6, 0x12, 0x16, 0xd1, 0x25, 0xde, 0x2c, 0x2a,
+	0x2b, 0x6e, 0x11, 0x7f, 0xa0, 0x88, 0x6d, 0x15, 0xbd, 0x28, 0x48, 0xc0, 0x7b, 0x4f, 0xcd, 0xb1,
+	0x04, 0xb3, 0x49, 0x4c, 0x66, 0x85, 0xe0, 0x0b, 0x88, 0x0f, 0x23, 0x3e, 0x82, 0x8f, 0x26, 0xe7,
+	0x27, 0xc7, 0x24, 0x1b, 0xb1, 0xbd, 0xe8, 0x4d, 0x38, 0xf3, 0xf3, 0xcd, 0x64, 0xbe, 0xf9, 0xce,
+	0x81, 0x9b, 0x55, 0xf9, 0xf1, 0xe1, 0x2a, 0x8f, 0x79, 0xaa, 0xbe, 0x8b, 0xa2, 0xcc, 0x29, 0x47,
+	0x4f, 0x1a, 0xe1, 0x01, 0x5c, 0x3d, 0x2a, 0x39, 0x23, 0x1e, 0xf1, 0x2f, 0x6b, 0x5e, 0x11, 0x3e,
+	0x00, 0x37, 0x66, 0xc4, 0x02, 0x6b, 0x66, 0xcd, 0xc7, 0xcb, 0x60, 0xa1, 0x30, 0x9d, 0x9c, 0x63,
+	0x46, 0x2c, 0x92, 0x59, 0xe1, 0x2f, 0x0b, 0x76, 0x36, 0x62, 0x88, 0xe0, 0x52, 0x5d, 0x70, 0x59,
+	0x63, 0x2b, 0x92, 0x67, 0x7c, 0x03, 0xc0, 0x88, 0xca, 0xe4, 0x74, 0x4d, 0xbc, 0x0a, 0xec, 0x99,
+	0x33, 0x1f, 0x2f, 0xe7, 0xff, 0xaa, 0xbe, 0x78, 0x69, 0x52, 0x5f, 0x65, 0x54, 0xd6, 0x51, 0x0b,
+	0x3b, 0x3d, 0x80, 0x49, 0x2f, 0x8c, 0xd7, 0xc1, 0xf9, 0xcc, 0x6b, 0xdd, 0x4f, 0x1c, 0x71, 0x17,
+	0xbc, 0xaf, 0x2c, 0x5d, 0xf3, 0xc0, 0x96, 0x3e, 0x65, 0x3c, 0xb7, 0x9f, 0x5a, 0x62, 0xe2, 0xf7,
+	0x45, 0xfc, 0xdf, 0x89, 0x3b, 0x39, 0xad, 0x89, 0x7f, 0x5b, 0xb0, 0xb3, 0x11, 0x1b, 0x9c, 0xf8,
+	0x1a, 0xd8, 0x49, 0xac, 0xfb, 0xdb, 0x49, 0xdc, 0x63, 0xc0, 0xe9, 0x30, 0xb0, 0x51, 0xf1, 0x32,
+	0x19, 0xf8, 0x06, 0xe3, 0xd7, 0x49, 0x16, 0x37, 0xf3, 0x0f, 0xfd, 0x3b, 0x82, 0x5b, 0xb0, 0x33,
+	0x85, 0xf5, 0x22, 0x79, 0x16, 0x05, 0xd3, 0x64, 0x95, 0x50, 0xe0, 0x48, 0xa7, 0x32, 0x70, 0x0f,
+	0x46, 0x55, 0x5e, 0xd2, 0x61, 0x1d, 0xb8, 0x12, 0xaf, 0x2d, 0xe1, 0xff, 0x94, 0xa4, 0xc4, 0xcb,
+	0xc0, 0x9b, 0x59, 0xf3, 0xed, 0x48, 0x5b, 0xe1, 0x07, 0xd8, 0x56, 0xcd, 0xab, 0x22, 0xcf, 0x2a,
+	0x8e, 0xf7, 0xc1, 0x5f, 0x71, 0x62, 0xad, 0x0d, 0x4c, 0x34, 0x27, 0x27, 0xda, 0x1d, 0x99, 0x04,
+	0xbc, 0xab, 0x57, 0xa5, 0xe4, 0xd3, 0x24, 0x36, 0xb5, 0xf4, 0x86, 0x9e, 0x80, 0xdf, 0x40, 0x45,
+	0xf5, 0x82, 0x9d, 0x25, 0x19, 0x23, 0xde, 0xab, 0xfe, 0x4e, 0xbb, 0x23, 0x93, 0x10, 0xfe, 0xb0,
+	0xc0, 0x6f, 0xdc, 0x78, 0x1b, 0x80, 0x72, 0x62, 0xe9, 0x51, 0xbe, 0xce, 0x48, 0x62, 0xbd, 0xa8,
+	0xe5, 0xc1, 0x5b, 0xb0, 0x25, 0x58, 0x51, 0x61, 0x45, 0xd3, 0x5f, 0x87, 0xe1, 0xcf, 0x19, 0xe2,
+	0xcf, 0x1d, 0xe6, 0xcf, 0x6b, 0xf3, 0x17, 0x3e, 0x83, 0xf1, 0x61, 0xfd, 0xd6, 0x2c, 0xe9, 0x5e,
+	0x47, 0xa4, 0x7b, 0x7a, 0x88, 0x56, 0x46, 0x4b, 0xa2, 0x8f, 0x61, 0xd2, 0x0b, 0x9c, 0x47, 0x9f,
+	0xe1, 0x4f, 0x0b, 0x7c, 0xb3, 0x96, 0xf3, 0x08, 0xfa, 0xc5, 0x80, 0xa0, 0xef, 0xf4, 0x76, 0x72,
+	0x89, 0x3a, 0x5e, 0x7e, 0xb7, 0xc1, 0x3b, 0x11, 0xdd, 0xf0, 0x11, 0x8c, 0xd4, 0x1b, 0x82, 0xbb,
+	0x43, 0x4f, 0xca, 0xb4, 0xaf, 0x94, 0xf0, 0x8a, 0x80, 0xa8, 0x4b, 0x67, 0x20, 0x9d, 0x3b, 0x38,
+	0x0c, 0xf1, 0x85, 0x74, 0x05, 0xb7, 0x88, 0x9b, 0x1b, 0x18, 0x86, 0xb8, 0x02, 0x62, 0xd2, 0x5b,
+	0xf7, 0x6e, 0x7a, 0xa3, 0xe3, 0x33, 0x90, 0x7d, 0x80, 0x63, 0x9e, 0x72, 0xe2, 0x17, 0xe8, 0x73,
+	0x3a, 0x92, 0x8f, 0xfa, 0xfe, 0x9f, 0x00, 0x00, 0x00, 0xff, 0xff, 0x46, 0xbb, 0x15, 0xe8, 0xed,
+	0x05, 0x00, 0x00,
 }

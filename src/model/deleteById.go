@@ -6,7 +6,7 @@ import (
 	"context"
 )
 
-func (rpc *RPC) DeleteById(context context.Context, request *pb.DeleteByIdRequest) (*pb.Response, error) {
+func (rpc *RPC) DeleteById(context context.Context, request *pb.ByIdRequest) (*pb.Response, error) {
 
 	return rpc.Update(context, &pb.UpdateRequest{
 		Data: &pb.UpdateRequestData{

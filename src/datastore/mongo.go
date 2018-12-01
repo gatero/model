@@ -46,8 +46,17 @@ func (mongo *Mongo) SetCollection(collectionName string) error {
 		return err
 	}
 
+	index := mgo.Index{
+		Key:        []string{"providerId"},
+		Unique:     true,
+		DropDups:   true,
+		Background: true,
+		Sparse:     true,
+	}
+
 	// get collection pointer
 	mongo.Collection = mongo.Session.DB(c.MONGO_DATABASE).C(mongo.CollectionName)
+	mongo.Collection.EnsureIndex(index)
 
 	return nil
 }

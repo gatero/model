@@ -3,8 +3,10 @@ package model
 import (
 	pb "app/src/grpc"
 	"context"
+	"log"
 
 	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/status"
 	"gopkg.in/mgo.v2/bson"
 )
@@ -14,6 +16,8 @@ func (rpc *RPC) Create(context context.Context, request *pb.CreateRequest) (*pb.
 		return nil, err
 	}
 	defer rpc.Mongo.Session.Close()
+	headers, _ := metadata.FromIncomingContext(context)
+	log.Printf("HEADERS: %v", headers)
 
 	attributes := request.Data.Attributes
 

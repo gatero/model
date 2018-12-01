@@ -32,8 +32,8 @@ func (rpc *RPC) Update(context context.Context, request *pb.UpdateRequest) (*pb.
 		return nil, status.Errorf(codes.Internal, err.Error())
 	}
 
-	updated, err := rpc.FindById(context, &pb.FindByIdRequest{
-		Data: &pb.FindByIdRequestData{
+	updated, err := rpc.FindById(context, &pb.ByIdRequest{
+		Data: &pb.ByIdRequestData{
 			Type: request.Data.Type,
 			Id:   request.Data.Id,
 		},

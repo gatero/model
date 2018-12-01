@@ -9,7 +9,7 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
-func (rpc *RPC) FindById(context context.Context, request *pb.FindByIdRequest) (*pb.Response, error) {
+func (rpc *RPC) FindById(context context.Context, request *pb.ByIdRequest) (*pb.Response, error) {
 	if err := rpc.Mongo.SetCollection(request.Data.Type); err != nil {
 		return nil, err
 	}
