@@ -3,10 +3,10 @@ package model
 import (
 	pb "app/src/grpc"
 	"context"
+	"fmt"
 	"log"
 
 	"google.golang.org/grpc/codes"
-	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/status"
 	"gopkg.in/mgo.v2/bson"
 )
@@ -16,10 +16,21 @@ func (rpc *RPC) Create(context context.Context, request *pb.CreateRequest) (*pb.
 		return nil, err
 	}
 	defer rpc.Mongo.Session.Close()
-	headers, _ := metadata.FromIncomingContext(context)
-	log.Printf("HEADERS: %v", headers)
 
+	options := request.Options
 	attributes := request.Data.Attributes
+
+	if options != nil && options["unique"] == "true" {
+		filter := fmt.Sprintf("{ \"name\": \"%s\" }", attributes["name"])
+		results, err := rpc.Find(context, &pb.FindRequest{
+			Type:   "profile",
+			Filter: []byte(filter),
+		})
+		if err != nil {
+			return nil, err
+		}
+		log.Printf("RESULTS: ", results)
+	}
 
 	instance := make(bson.M)
 	instance["_id"] = bson.NewObjectId()

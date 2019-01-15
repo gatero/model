@@ -20,6 +20,16 @@ func (rpc *RPC) Update(context context.Context, request *pb.UpdateRequest) (*pb.
 		"_id": bson.ObjectIdHex(request.Data.Id),
 	}
 
+	_, err := rpc.FindById(context, &pb.ByIdRequest{
+		Data: &pb.ByIdRequestData{
+			Type: request.Data.Type,
+			Id:   request.Data.Id,
+		},
+	})
+	if err != nil {
+		return nil, status.Errorf(codes.Internal, err.Error())
+	}
+
 	instanceToUpsert := make(bson.M)
 	for key, _ := range attributes {
 		if key != "" && key != "_id" {
@@ -27,7 +37,7 @@ func (rpc *RPC) Update(context context.Context, request *pb.UpdateRequest) (*pb.
 		}
 	}
 
-	_, err := rpc.Mongo.Collection.Upsert(query, bson.M{"$set": instanceToUpsert})
+	_, err = rpc.Mongo.Collection.Upsert(query, bson.M{"$set": instanceToUpsert})
 	if err != nil {
 		return nil, status.Errorf(codes.Internal, err.Error())
 	}
