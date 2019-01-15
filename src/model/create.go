@@ -20,6 +20,7 @@ func (rpc *RPC) Create(context context.Context, request *pb.CreateRequest) (*pb.
 	options := request.Options
 	attributes := request.Data.Attributes
 
+	log.Println("hola mundo")
 	if options != nil && options["unique"] == "true" {
 		filter := fmt.Sprintf("{ \"name\": \"%s\" }", attributes["name"])
 		results, err := rpc.Find(context, &pb.FindRequest{
