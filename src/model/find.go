@@ -2,6 +2,7 @@ package model
 
 import (
 	pb "app/src/grpc"
+	"app/src/util"
 	"context"
 	"encoding/json"
 
@@ -14,7 +15,11 @@ func (rpc *RPC) Find(context context.Context, request *pb.FindRequest) (*pb.Find
 	if err := rpc.Mongo.SetCollection(request.Type); err != nil {
 		return nil, err
 	}
-	defer rpc.Mongo.Session.Close()
+
+	notAllowedTypes := []string{"profile"}
+	if !util.Contains(notAllowedTypes, request.Type) {
+		defer rpc.Mongo.Session.Close()
+	}
 
 	page := int32(1)
 	if request.Page > 1 {
@@ -51,7 +56,8 @@ func (rpc *RPC) Find(context context.Context, request *pb.FindRequest) (*pb.Find
 
 	var instances []bson.M
 
-	if err := rpc.Mongo.Collection.Find(filter).Sort(sortBy).Skip(offset).Limit(int(limit)).All(&instances); err != nil {
+	err := rpc.Mongo.Collection.Find(filter).Sort(sortBy).Skip(offset).Limit(int(limit)).All(&instances)
+	if err != nil {
 		return nil, err
 	}
 

@@ -14,6 +14,7 @@ service Model {
 // CREATE
 message CreateRequest {
   CreateRequestData data = 1;
+  map<string, string> options = 2;
 }
 
 message CreateRequestData {
